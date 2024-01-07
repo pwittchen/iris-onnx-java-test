@@ -1,5 +1,16 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath "gradle.plugin.com.github.johnrengelman:shadow:7.1.2"
+    }
+}
+
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 group = 'com.github.pwittchen'
@@ -28,8 +39,22 @@ jar {
                 'Main-Class': 'com.github.pwittchen.Main'
         )
     }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
 
 test {
     useJUnitPlatform()
+}
+
+tasks.register('createFatJar', Jar) {
+    manifest {
+        attributes 'Main-Class': 'com.github.pwittchen.Main'
+    }
+    archiveBaseName = 'iris-java'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
