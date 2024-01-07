@@ -2,6 +2,10 @@
 
 verifying prediction in java using model generated in python
 
+## requirements
+
+Java 17
+
 ## building
 
 to build project, execute:
