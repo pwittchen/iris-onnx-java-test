@@ -19,7 +19,7 @@ public class Main {
     public static void main(String[] args) {
         var env = OrtEnvironment.getEnvironment();
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        String modelFileName = "rf_iris.onnx";
+        String modelFileName = "rf_iris.onnx"; // or: logreg_iris.onnx
 
         try (InputStream is = classloader.getResourceAsStream(modelFileName)) {
 
@@ -51,10 +51,10 @@ public class Main {
 
             float[] inputArray = new float[inputSize];
 
-            inputArray[0] = 6.2f;
-            inputArray[1] = 3.4f;
-            inputArray[2] = 5.4f;
-            inputArray[3] = 2.3f;
+            inputArray[0] = 5.9f;
+            inputArray[1] = 3.0f;
+            inputArray[2] = 4.2f;
+            inputArray[3] = 1.5f;
 
             OnnxTensor inputTensorOne = OnnxTensor.createTensor(
                     env,
