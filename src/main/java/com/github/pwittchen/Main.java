@@ -21,7 +21,7 @@ public class Main {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         String modelFileName = "rf_iris.onnx"; // or: logreg_iris.onnx
 
-        try (InputStream is = classloader.getResourceAsStream(modelFileName)) {
+        try (var is = classloader.getResourceAsStream(modelFileName)) {
 
             byte[] bytes = new byte[0];
             if (is != null) {
