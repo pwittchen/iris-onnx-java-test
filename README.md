@@ -4,3 +4,5 @@ verifying prediction in java using model generated in python
 
 ## references
 - https://github.com/getaicube/iris-onnx-python-test
+- https://onnxruntime.ai/docs/get-started/with-java.html
+- https://github.com/microsoft/onnxruntime-openenclave/blob/openenclave-public/java/src/test/java/ai/onnxruntime/InferenceTest.java#L66
