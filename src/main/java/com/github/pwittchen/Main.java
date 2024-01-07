@@ -8,7 +8,6 @@ import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.FloatBuffer;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +15,10 @@ import java.util.Optional;
 import java.util.Set;
 
 public class Main {
+
+    //todo 1: use all sample data in a batch processing like in the python sample
+    //todo 2: preprocess  result data to choose correct index in the output like in the python example
+
     public static void main(String[] args) {
         var env = OrtEnvironment.getEnvironment();
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
