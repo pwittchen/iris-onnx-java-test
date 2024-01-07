@@ -50,41 +50,39 @@ public class Main {
             // [5.1 2.5 3.  1.1], [5.2 3.5 1.5 0.2], [4.6 3.4 1.4 0.3], [6.3 3.4 5.6 2.4],
             // [4.9 3.1 1.5 0.1], [5.4 3.9 1.7 0.4]]
 
-            OrtSession session = env.createSession(bytes, new OrtSession.SessionOptions());
-            int inputSize = 4;
+            try (var session = env.createSession(bytes, new OrtSession.SessionOptions())) {
+                int inputSize = 4;
+                float[] inputArray = new float[inputSize];
 
-            float[] inputArray = new float[inputSize];
+                inputArray[0] = 5.9f;
+                inputArray[1] = 3.0f;
+                inputArray[2] = 4.2f;
+                inputArray[3] = 1.5f;
 
-            inputArray[0] = 5.9f;
-            inputArray[1] = 3.0f;
-            inputArray[2] = 4.2f;
-            inputArray[3] = 1.5f;
+                try (var tensor = OnnxTensor.createTensor(
+                        env, FloatBuffer.wrap(inputArray), new long[]{1, inputSize}
+                )) {
 
-            OnnxTensor tensor = OnnxTensor.createTensor(
-                    env,
-                    FloatBuffer.wrap(inputArray),
-                    new long[]{1, inputSize}
-            );
+                    Map<String, OnnxTensor> inputs = Map.of(
+                            String.valueOf(session.getInputNames().toArray()[0]),
+                            tensor
+                    );
 
-            Map<String, OnnxTensor> inputs = Map.of(
-                    String.valueOf(session.getInputNames().toArray()[0]),
-                    tensor
-            );
-
-            try (var results = session.run(inputs)) {
-                Set<String> outputNames = session.getOutputNames();
-                Optional<OnnxValue> onnxValue = results.get((String) outputNames.toArray()[1]);
-                if (onnxValue.isPresent()) {
-                    //noinspection rawtypes
-                    Map<?, ?> result = ((OnnxMap) ((List) onnxValue.get().getValue()).get(0)).getValue();
-                    System.out.println(result);
+                    try (var results = session.run(inputs)) {
+                        Set<String> outputNames = session.getOutputNames();
+                        Optional<OnnxValue> onnxValue = results.get((String) outputNames.toArray()[1]);
+                        if (onnxValue.isPresent()) {
+                            //noinspection rawtypes
+                            Map<?, ?> result = ((OnnxMap) ((List) onnxValue.get().getValue()).get(0)).getValue();
+                            System.out.println(result);
+                        }
+                    }
                 }
-            } finally {
-                tensor.close();
-                session.close();
-            }
 
-        } catch (OrtException | IOException e) {
+            } catch (OrtException e) {
+                System.err.println(e.getMessage());
+            }
+        } catch (IOException e) {
             System.err.println(e.getMessage());
         }
     }
