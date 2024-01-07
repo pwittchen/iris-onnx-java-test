@@ -20,6 +20,8 @@ to build fat jar, execute:
 ./gradlew createFatJar
 ```
 
+## running
+
 to run compiled fat jar app, execute:
 
 ```
