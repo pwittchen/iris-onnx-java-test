@@ -60,13 +60,16 @@ public class Main {
             inputArray[2] = 4.2f;
             inputArray[3] = 1.5f;
 
-            OnnxTensor inputTensorOne = OnnxTensor.createTensor(
+            OnnxTensor tensor = OnnxTensor.createTensor(
                     env,
                     FloatBuffer.wrap(inputArray),
                     new long[]{1, inputSize}
             );
 
-            Map<String, OnnxTensor> inputs = Map.of("float_input", inputTensorOne);
+            Map<String, OnnxTensor> inputs = Map.of(
+                    String.valueOf(session.getInputNames().toArray()[0]),
+                    tensor
+            );
 
             try (var results = session.run(inputs)) {
                 Set<String> outputNames = session.getOutputNames();
@@ -77,7 +80,7 @@ public class Main {
                     System.out.println(result);
                 }
             } finally {
-                inputTensorOne.close();
+                tensor.close();
                 session.close();
             }
 
