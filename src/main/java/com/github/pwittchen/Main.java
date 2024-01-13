@@ -32,7 +32,6 @@ public class Main {
                 {4.9f, 3.1f, 1.5f, 0.1f}, {5.4f, 3.9f, 1.7f, 0.4f}
         };
 
-
         int inputSize = 4;
         float[] inputArray = new float[inputSize];
 
@@ -84,7 +83,6 @@ public class Main {
         var env = OrtEnvironment.getEnvironment();
 
         try (var session = env.createSession(bytes, new OrtSession.SessionOptions())) {
-
 
             try (var tensor = OnnxTensor.createTensor(
                     env, FloatBuffer.wrap(inputArray), new long[]{1, inputArray.length}
