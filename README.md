@@ -1,6 +1,6 @@
 # iris-onnx-java-test
 
-verifying prediction in java using model generated in python
+verifying prediction in java using IRIS model generated in python
 
 ## requirements
 
